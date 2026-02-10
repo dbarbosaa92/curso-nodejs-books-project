@@ -1,6 +1,7 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
-const mysql = require('mysql')
+//const mysql = require('mysql')
+const pool = require('./db/conn') //tudo que era coon, vira pool
 
 const app = express()
 
@@ -28,9 +29,12 @@ app.post('/books/insertbook', (req, res) => { //caminho usado para executar a fu
     const title = req.body.title
     const pageqty = req.body.pageqty
 
-    const sql = 'INSERT INTO books (title, pageqty) VALUES (?, ?)'
+    //const sql = 'INSERT INTO books (title, pageqty) VALUES (?, ?)'
+    const sql = `INSERT INTO books(?? , ??) VALUES (? , ?)`
+    const data = ['title', 'pageqty', title, pageqty] //substitui igual C (Queries)
 
-    conn.query(sql, [title, pageqty], (err) => {
+
+    pool.query(sql, data, (err) => { //[title, poageqty] no modelo anterior
         if (err) {
             console.error(err)
             return
@@ -42,7 +46,7 @@ app.post('/books/insertbook', (req, res) => { //caminho usado para executar a fu
 app.get('/books', (req, res) => { //funcao para pegar as informacoes do banco de dados
     const sql = 'SELECT * FROM books'
 
-    conn.query(sql, (err, data) => {
+    pool.query(sql, (err, data) => {
         if (err) {
             console.log(err)
         }
@@ -56,9 +60,10 @@ app.get('/books', (req, res) => { //funcao para pegar as informacoes do banco de
 
 app.get('/books/:id', (req, res) => {
     const id = req.params.id
-    const sql = `SELECT * FROM books WHERE id = ${id} `
+    const sql = `SELECT * FROM books WHERE ?? = ? `
+    const data = ['id', id]
 
-    conn.query(sql, (err, data) => {
+    pool.query(sql, data, (err, data) => {
         if(err) {
             console.log(err)
         }
@@ -73,9 +78,10 @@ app.get('/books/edit/:id', (req, res) => {
 
     const id = req.params.id
 
-    const sql = `SELECT * FROM books WHERE id = ${id}`
+    const sql = `SELECT * FROM books WHERE ?? = ?`
+    const data = ['id', id]
 
-    conn.query(sql, (err, data) => {
+    pool.query(sql, data, (err, data) => {
         if(err) {
             console.log(err)
             return
@@ -91,9 +97,10 @@ app.post('/books/updatebook', (req, res) => {
     const title = req.body.title
     const pageqty = req.body.pageqty
 
-    const sql = `UPDATE books SET title = '${title}', pageqty = '${pageqty}' WHERE id = ${id}`
+    const sql = `UPDATE books SET ?? = ?, ?? = ? WHERE ?? = ?`
+    const data = ['title', title, 'pageqty', pageqty, 'id', id]
 
-    conn.query(sql, (err) => {
+    pool.query(sql, data, (err) => {
         if(err) {
             console.log(err)
         }
@@ -102,28 +109,48 @@ app.post('/books/updatebook', (req, res) => {
     })
 })
 
+app.post('/books/remove/:id', (req, res) => {
+    const id = req.params.id
 
-const conn = mysql.createConnection({ //metodo para criar a conexao, mas ainda nao esta sendo executada
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'nodemysql',
-    port: 3307
+    const sql = `DELETE from books WHERE id = ${id}`
 
-})
-
-conn.connect(function (err) { //ligar o nosso servidor local
-    if (err) {
-        console.error('Erro ao conectar:', err)
+    pool.query(sql, (err) => {
+        if(err){
+            console.log(err)
         return
-    }
+        }
 
-    console.log('Conectado ao MySQL!')
-    app.listen(3000)
+        res.redirect('/books')
+
+    })
 })
 
 
-conn.query('SHOW DATABASES', (err, results) => { //teste efetuado
+// const conn = mysql.createConnection({ //metodo para criar a conexao, mas ainda nao esta sendo executada
+//     //tem o pool para substituir!
+//     host: 'localhost',
+//     user: 'root',
+//     password: '',
+//     database: 'nodemysql',
+//     port: 3307
+
+// })
+
+// conn.connect(function (err) { //ligar o nosso servidor local
+//     //o pool entra no lugar
+//     if (err) {
+//         console.error('Erro ao conectar:', err)
+//         return
+//     }
+
+//     console.log('Conectado ao MySQL!')
+//     
+// })
+
+
+app.listen(3000)
+
+pool.query('SHOW DATABASES', (err, results) => { //teste efetuado
     if (err) {
         console.log(err)
         return

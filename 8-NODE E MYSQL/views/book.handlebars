@@ -1,10 +1,14 @@
-<div id="book-page">
-    <a href="/books">Voltar</a>
-    <div class="container">
+<section class="detail">
+    <a href="/books" class="link">Voltar para lista</a>
+    <div class="card detail-card">
+        <p class="eyebrow">Detalhes</p>
         <h1>{{book.title}}</h1>
-        <p>Este livro tem {{book.pageqty}} páginas.</p>
-    <div class="action">
-        <a href="/books/edit/{{book.id}}">Editar</a>
+        <p class="lead">Este livro tem {{book.pageqty}} paginas.</p>
+        <div class="actions">
+            <a href="/books/edit/{{book.id}}" class="btn">Editar</a>
+            <form action="/books/remove/{{book.id}}" method="POST">
+                <input type="submit" value="Remover" class="btn btn-danger">
+            </form>
+        </div>
     </div>
-    </div>
-</div>
+</section>

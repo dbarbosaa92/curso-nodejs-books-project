@@ -1,12 +1,18 @@
-<h1>Cadastre seu livro: </h1>
-<form action="/books/insertbook" method="POST" class="form">
-    <div class="form-control">
-        <label for="title">Título:</label>
-        <input type="text" name="title" placeholder="Digite o título do livro" >
+<section class="hero">
+    <div class="hero-text">
+        <p class="eyebrow">Cadastro rapido</p>
+        <h1>Cadastre seu livro</h1>
+        <p class="lead">Organize sua biblioteca e acompanhe quantas paginas cada titulo tem.</p>
     </div>
-    <div class="form-control">
-        <label for="pageqty">Número de páginas:</label>
-        <input type="number" name="pageqty" placeholder="Quantidade de paginas do livro">
-    </div>
-    <input type="submit" value="Cadastrar">
+    <form action="/books/insertbook" method="POST" class="card form">
+        <div class="form-control">
+            <label for="title">Titulo</label>
+            <input type="text" id="title" name="title" placeholder="Digite o titulo do livro" required>
+        </div>
+        <div class="form-control">
+            <label for="pageqty">Numero de paginas</label>
+            <input type="number" id="pageqty" name="pageqty" placeholder="Quantidade de paginas" min="1" required>
+        </div>
+        <input type="submit" value="Cadastrar livro" class="btn">
     </form>
+</section>

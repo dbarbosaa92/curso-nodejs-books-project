@@ -1,11 +1,19 @@
-<h1>Livros disponiveis:</h1>
-<div class="books-container">
-    <a href="/">Adicionar livro</a>
-    {{#each books}}
+<section class="page-header">
     <div>
-        #{{this.id}} - 
-        <span class="bold"><a href="/books/{{this.id}}">{{this.title}}</a></span> 
-         - {{this.pageqty}} páginas
+        <p class="eyebrow">Catalogo</p>
+        <h1>Livros disponiveis</h1>
     </div>
+    <a href="/" class="btn btn-ghost">Adicionar livro</a>
+</section>
+
+<div class="grid">
+    {{#each books}}
+    <article class="card book-card">
+        <p class="book-id">#{{this.id}}</p>
+        <h2 class="book-title">
+            <a href="/books/{{this.id}}">{{this.title}}</a>
+        </h2>
+        <p class="book-meta">{{this.pageqty}} paginas</p>
+    </article>
     {{/each}}
 </div>
