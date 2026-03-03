@@ -1,0 +1,18 @@
+<section class="page-header">
+    <h1>Criar Task</h1>
+    <p>Organize suas tarefas com um visual mais limpo.</p>
+
+    <form action="/tasks/add" method="POST" class="task-form">
+        <div class="form-control">
+            <label for="title">Titulo da Task:</label>
+            <input id="title" type="text" name="title" placeholder="O que voce vai fazer?" required>
+        </div>
+
+        <div class="form-control">
+            <label for="description">Descricao da Task:</label>
+            <textarea id="description" name="description" placeholder="Descreva a tarefa..." required></textarea>
+        </div>
+
+        <input type="submit" value="Criar" class="btn-primary">
+    </form>
+</section>

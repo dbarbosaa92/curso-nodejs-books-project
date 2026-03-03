@@ -1,0 +1,36 @@
+<section class="page-header tasks-page">
+    <h1>Todas as Tasks</h1>
+    <p>Lista completa de tarefas cadastradas.</p>
+
+    <ul class="task-list">
+        {{#each tasks}}
+            <li class="task-item {{#if this.done}}is-done{{/if}}">
+                <div class="task-content">
+                    <span class="title">{{this.title}}</span>
+
+                    <p class="task-description">{{this.description}}</p>
+                </div>
+
+                <div class="actions">
+                    <form action="/tasks/updateStatus" method="POST" class="inline-form">
+                        <input type="hidden" name="id" value="{{this.id}}">
+                        <button type="submit" class="btn-icon btn-done">
+                            <i class="bi bi-check2"></i>
+                        </button>
+                    </form>
+
+                    <a href="/tasks/edit/{{this.id}}" class="btn-icon btn-edit">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+
+                    <form action="/tasks/remove" method="POST" class="inline-form">
+                        <input type="hidden" name="id" value="{{this.id}}">
+                        <button type="submit" class="btn-icon btn-remove">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </form>
+                </div>
+            </li>
+        {{/each}}
+    </ul>
+</section>

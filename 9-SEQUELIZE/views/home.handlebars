@@ -1,0 +1,22 @@
+﻿<section class="home-users">
+    <div class="home-head">
+        <p class="eyebrow">Base de dados</p>
+        <h1>Usuários cadastrados</h1>
+    </div>
+
+    <div class="container">
+        {{#each users}}
+        <article class="item">
+            <h2>{{this.name}}</h2>
+            <p>{{this.occupation}}</p>
+            <div class="actions">
+                <a href="/users/{{this.id}}">Ver detalhes</a>
+                <a href="/users/edit/{{this.id}}">Editar</a>
+                <form action="/users/delete/{{this.id}}" method="POST">
+                    <input type="submit" value="Excluir" class="delete-btn">
+                </form>
+            </div> 
+        </article>
+        {{/each}}
+    </div>
+</section>
